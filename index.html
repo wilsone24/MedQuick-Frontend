@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Crear cuenta</h2>
+      <form id="registerForm" class="form">
+        <!-- Campos del usuario -->
+        <input
+          type="text"
+          id="fullName"
+          placeholder="Nombre completo"
+          required
+        />
+        <input
+          type="email"
+          id="email"
+          placeholder="Correo electrónico"
+          required
+        />
+        <input
+          type="password"
+          id="password"
+          placeholder="Contraseña"
+          required
+        />
+
+        <!-- Campos del paciente -->
+        <input type="number" id="age" placeholder="Edad" required />
+        <input type="tel" id="phone" placeholder="Teléfono" required />
+        <input type="text" id="address" placeholder="Dirección" required />
+        <input
+          type="text"
+          id="bloodType"
+          placeholder="Tipo de sangre"
+          required
+        />
+        <input type="text" id="gender" placeholder="Género (M/F)" required />
+
+        <button type="submit">Registrarse</button>
+      </form>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
