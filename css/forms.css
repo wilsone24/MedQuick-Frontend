@@ -1,0 +1,300 @@
+/* Estilos para formularios y páginas de autenticación - Versión modernizada */
+
+/* Contenedor de formulario */
+.auth-container {
+  max-width: 800px;
+  margin: 3rem auto;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  transition: all 0.3s ease;
+}
+
+.auth-container:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* Título del formulario */
+.auth-container h2 {
+  color: #0078d4;
+  margin-bottom: 1.75rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.auth-container h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: #0078d4;
+  border-radius: 3px;
+}
+
+/* Estilos para el formulario */
+.form {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+/* En pantallas grandes, mostrar en 2 columnas con menos espacio */
+@media (min-width: 768px) {
+  .form {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1.25rem 1.5rem;
+  }
+  
+  /* Elementos que ocupan toda la fila */
+  .form .full-width {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Estilos para los campos de entrada */
+.form input,
+.form select,
+.form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e1e5eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.form input:hover,
+.form select:hover,
+.form textarea:hover {
+  border-color: #b3d7ff;
+  background-color: #fff;
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: #0078d4;
+  box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.15);
+  background-color: #fff;
+}
+
+/* Estilos para los labels */
+.form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.form input:focus + label,
+.form select:focus + label,
+.form textarea:focus + label {
+  color: #0078d4;
+}
+
+/* Grupo de formulario (label + input) */
+.form-group {
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+
+/* Botón de envío */
+.form button[type="submit"] {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  padding: 0.85rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  letter-spacing: 0.5px;
+}
+
+.form button[type="submit"]:hover {
+  background-color: #0066b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Enlaces para cambiar entre registro y login */
+.auth-links {
+  text-align: center;
+  margin-top: 1.75rem;
+  color: #555;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.auth-links a {
+  color: #0078d4;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: all 0.2s;
+  padding-bottom: 2px;
+}
+
+.auth-links a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #0078d4;
+  transition: width 0.3s;
+}
+
+.auth-links a:hover {
+  color: #0066b3;
+  text-decoration: none;
+}
+
+.auth-links a:hover::after {
+  width: 100%;
+}
+
+/* Mensajes de error/éxito */
+.message {
+  padding: 0.85rem 1rem;
+  margin: 1rem 0 0.5rem;
+  border-radius: 8px;
+  grid-column: 1 / -1;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.success-message {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #155724;
+  border-left: 4px solid #28a745;
+}
+
+.success-message::before {
+  content: "✓";
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.error-message {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #721c24;
+  border-left: 4px solid #dc3545;
+}
+
+.error-message::before {
+  content: "✕";
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+/* Sección de Login/Registro con pestañas */
+.auth-tabs {
+  display: flex;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #e1e5eb;
+  position: relative;
+}
+
+.auth-tabs button {
+  background: none;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-tabs button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background-color: #0078d4;
+  transition: width 0.3s;
+}
+
+.auth-tabs button:hover {
+  color: #495057;
+}
+
+.auth-tabs button.active {
+  color: #0078d4;
+}
+
+.auth-tabs button.active::after {
+  width: 80%;
+}
+
+/* Animaciones para cambio entre formularios */
+.form-container {
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.form-container.hidden {
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Responsividad adicional */
+@media (max-width: 576px) {
+  .auth-container {
+    margin: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .form button[type="submit"] {
+    height: 45px;
+  }
+  
+  .auth-tabs button {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mejoras visuales para campos enfocados */
+.form-group:focus-within label {
+  color: #0078d4;
+  transform: translateY(-2px);
+  transition: transform 0.2s, color 0.2s;
+}
