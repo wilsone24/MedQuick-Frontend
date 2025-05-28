@@ -178,15 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Cargar lista de citas (si existe la sección)
-  const appointmentsSection = document.getElementById("appointments-section");
-  if (appointmentsSection) {
-    const appointmentsList =
-      appointmentsSection.querySelector(".appointments-list");
-    if (appointmentsList) {
-      loadAppointments(appointmentsList, token);
-    }
-  }
+  
+  
 });
 
 // Función para cargar la lista de doctores
