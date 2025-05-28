@@ -6,6 +6,8 @@
     <title>MedQuick - Panel de Usuario</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/chatbot.css" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   </head>
   <body class="dashboard-page">
     <header>
@@ -30,9 +32,6 @@
             <li><a href="#" id="doctors-link" class="nav-link">Doctores</a></li>
             <li>
               <a href="#" id="appointments-link" class="nav-link">Citas</a>
-            </li>
-            <li>
-              <a href="#" id="surveys-link" class="nav-link">Encuestas</a>
             </li>
             <li><a href="#" id="chatbot-link" class="nav-link">ChatBot</a></li>
           </ul>
@@ -65,20 +64,17 @@
               </div>
             </div>
             <div class="card">
-              <div class="card-icon">📝</div>
-              <div class="card-title">Encuestas</div>
+              <div class="card-icon">🤖</div>
+              <div class="card-title">Asistente Virtual</div>
               <div class="card-content">
-                <p>Brinda tu opinión sobre la atención recibida.</p>
-                <button class="btn secondary-btn" id="view-surveys-btn">
-                  Ver encuestas
+                <p>Consulta con nuestro ChatBot médico las 24 horas.</p>
+                <button class="btn secondary-btn" id="view-chatbot-btn">
+                  Iniciar Chat
                 </button>
               </div>
             </div>
           </div>
         </section>
-
-        <!-- Sección Doctores -->
-        <!-- Reemplaza la sección Doctores con esto: -->
 
         <!-- Sección Doctores -->
         <section id="doctors-section" class="section">
@@ -96,14 +92,6 @@
             <button id="new-appointment-btn" class="btn primary-btn">
               Nueva Cita
             </button>
-            <div class="filters">
-              <select id="appointment-status">
-                <option value="">Todos los estados</option>
-                <option value="pending">Pendientes</option>
-                <option value="completed">Completadas</option>
-                <option value="canceled">Canceladas</option>
-              </select>
-            </div>
           </div>
           <div class="appointments-calendar">
             <!-- Calendario simple se completará con JavaScript -->
@@ -155,26 +143,37 @@
           </div>
         </section>
 
-        <!-- Sección Encuestas -->
-        <section id="surveys-section" class="section">
-          <h1>Encuestas de Satisfacción</h1>
-          <div class="surveys-tabs">
-            <button class="tab-btn active" id="pending-surveys-tab">
-              Pendientes
-            </button>
-            <button class="tab-btn" id="completed-surveys-tab">
-              Completadas
-            </button>
-          </div>
-          <div id="surveys-list" class="surveys-list">
-            <!-- Se completará con JavaScript -->
-            <div class="loading">Cargando encuestas...</div>
-          </div>
-        </section>
-
-        <!-- Sección Perfil -->
+        <!-- Sección Chatbot -->
         <section id="chatbot-section" class="section">
-          <h1>ChatBot</h1>
+          <h1>Asistente Médico Virtual</h1>
+          <div class="chatbot-container">
+            <div class="chatbot-header">
+              <h2>🩺 Med ChatBot</h2>
+              <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9em;">Tu asistente médico virtual las 24 horas</p>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+              <div class="chat-welcome">
+                <strong>¡Hola! 👋</strong><br>
+                Soy tu asistente médico virtual. Puedo ayudarte con información sobre síntomas, 
+                recomendaciones generales de salud y orientarte sobre qué especialista consultar.<br>
+                <em>¿En qué puedo ayudarte hoy?</em>
+              </div>
+            </div>
+            
+            <div class="chat-input-container">
+              <input 
+                type="text" 
+                class="chat-input" 
+                id="chatInput"
+                placeholder="Escribe tu consulta médica aquí..."
+                maxlength="500"
+              />
+              <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()">
+                Enviar
+              </button>
+            </div>
+          </div>
         </section>
       </div>
     </main>
@@ -183,6 +182,206 @@
       <p>&copy; 2025 MedQuick - Todos los derechos reservados</p>
     </footer>
 
+    <script>
+      // Chatbot functionality
+      let messages = [
+        {
+          role: 'system',
+          content: `Eres un asistente médico servicial y experto que habla español. Preguntas por los síntomas que faltan, nunca inventas respuestas y siempre sugieres medidas preventivas y el especialista adecuado.
+          Sigue las siguientes reglas para dar tus respuestas:
+          1. Si falta algún dato, pregunta por él de manera clara y específica 
+          2. Si la información está completa, genera un JSON con la estructura correcta (guardalo y no lo muestres)
+          3. No inventar información si el usuario no la proporciona 
+          4. Mantén la conversación fluida y natural 
+          5. Si el cliente proporciona información incorrecta, indícale el error y pídele que la corrija 
+          6. Si el cliente no proporciona la información solicitada, indícale que es necesaria para continuar 
+          7. Si el cliente proporciona información adicional, agradécele y sigue con el proceso 
+          8. No mencionar la palabra JSON en las respuestas 
+          9. Responde solo a cuestiones médicas o dudas concretas como las mencionadas en el contexto (Ej: si te preguntan por el clima, debes responder que no puedes resolver esa inquietud) 
+          10. Si el cliente solicita información que no está en el contexto, debe decir que no puedes ayudar con esa información y ofrecerle una alternativa. 
+
+          Nota: Estamos en 2025, por lo que la fecha y hora deben ser acordes a este año.`,
+        }
+      ];
+
+      async function sendMessage() {
+        const input = document.getElementById('chatInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const sendBtn = document.getElementById('chatSendBtn');
+        
+        const userMessage = input.value.trim();
+        if (!userMessage) return;
+
+        // Disable input and button
+        input.disabled = true;
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'Enviando...';
+
+        // Add user message to chat
+        addMessageToChat('user', userMessage);
+        
+        // Add user message to conversation
+        messages.push({ role: 'user', content: userMessage });
+        
+        // Clear input
+        input.value = '';
+        
+        // Add loading message
+        const loadingId = addLoadingMessage();
+
+        try {
+          const response = await fetch(
+            'https://openrouter.ai/api/v1/chat/completions',
+            {
+              method: 'POST',
+              headers: {
+                Authorization: 'Bearer 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',
+                'HTTP-Referer': 'https://www.sitename.com',
+                'X-Title': 'MedApp',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                model: 'deepseek/deepseek-chat-v3-0324:free',
+                messages: messages,
+              }),
+            }
+          );
+
+          const data = await response.json();
+          const assistantMessage = data.choices?.[0]?.message?.content;
+
+          let finalMessage = assistantMessage?.trim();
+          if (!finalMessage) {
+            finalMessage = "No he podido generar una respuesta. Por favor asegúrate de brindar todos los síntomas o datos necesarios.";
+          }
+
+          // Add assistant message to conversation
+          messages.push({ role: 'assistant', content: finalMessage });
+
+          // Remove loading message and add assistant response
+          removeLoadingMessage(loadingId);
+          addMessageToChat('assistant', finalMessage);
+
+        } catch (error) {
+          removeLoadingMessage(loadingId);
+          addMessageToChat('assistant', `Error: ${error.message}`, true);
+        } finally {
+          // Re-enable input and button
+          input.disabled = false;
+          sendBtn.disabled = false;
+          sendBtn.textContent = 'Enviar';
+          input.focus();
+        }
+      }
+
+      function addMessageToChat(sender, content, isError = false) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `chat-message ${sender}`;
+        
+        if (isError) {
+          messageDiv.style.color = 'var(--danger-color)';
+          messageDiv.style.borderColor = 'var(--danger-color)';
+        }
+        
+        const contentHtml = sender === 'assistant' ? marked.parse(content) : escapeHtml(content);
+        
+        messageDiv.innerHTML = `
+          <div class="message-label">${sender === 'user' ? 'Tú' : 'Asistente Médico'}</div>
+          <div class="message-content">${contentHtml}</div>
+        `;
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function addLoadingMessage() {
+        const chatMessages = document.getElementById('chatMessages');
+        const loadingDiv = document.createElement('div');
+        const loadingId = 'loading-' + Date.now();
+        loadingDiv.id = loadingId;
+        loadingDiv.className = 'chat-message loading-message';
+        loadingDiv.innerHTML = `
+          <div class="message-label">Asistente Médico</div>
+          <div class="message-content">Analizando tu consulta...</div>
+        `;
+        
+        chatMessages.appendChild(loadingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        return loadingId;
+      }
+
+      function removeLoadingMessage(loadingId) {
+        const loadingElement = document.getElementById(loadingId);
+        if (loadingElement) {
+          loadingElement.remove();
+        }
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // Enable Enter key to send message
+      document.getElementById('chatInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      // Dashboard navigation (existing functionality)
+      document.addEventListener('DOMContentLoaded', function() {
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.section');
+
+        navLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links and sections
+            navLinks.forEach(l => l.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Show corresponding section
+            const targetId = this.id.replace('-link', '-section');
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+              targetSection.classList.add('active');
+            }
+          });
+        });
+
+        // Dashboard card buttons
+        document.getElementById('view-doctors-btn')?.addEventListener('click', function() {
+          document.getElementById('doctors-link').click();
+        });
+
+        document.getElementById('view-appointments-btn')?.addEventListener('click', function() {
+          document.getElementById('appointments-link').click();
+        });
+
+        // Fix: Make "Iniciar Chat" button work
+        document.getElementById('view-chatbot-btn')?.addEventListener('click', function() {
+          document.getElementById('chatbot-link').click();
+        });
+
+        // Focus chat input when chatbot section is opened
+        document.getElementById('chatbot-link').addEventListener('click', function() {
+          setTimeout(() => {
+            document.getElementById('chatInput').focus();
+          }, 100);
+        });
+      });
+    </script>
+    
     <script src="js/dashboard.js"></script>
     <script src="js/doctors.js"></script>
     <script src="js/appointments.js"></script>
