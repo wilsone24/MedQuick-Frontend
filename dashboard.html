@@ -7,7 +7,30 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
     <link rel="stylesheet" href="css/chatbot.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+      /* Estilos personalizados para el cuerpo y la fuente (del dashboard médico) */
+      body {
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* Asegura que los elementos canvas sean responsivos y se ajusten a sus contenedores */
+      canvas {
+        width: 100% !important;
+        height: auto !important; /* Permite que la altura se ajuste proporcionalmente */
+      }
+
+      /* Estilos generales de las secciones para ocultar/mostrar */
+      .section {
+        display: none;
+      }
+      .section.active {
+        display: block;
+      }
+    </style>
   </head>
   <body class="dashboard-page">
     <header>
@@ -16,8 +39,7 @@
           <a href="dashboard.html">MedQuick</a>
         </div>
         <div id="user-info" class="user-info">
-          <!-- Se completará con JavaScript -->
-        </div>
+          </div>
         <button id="logout-btn" class="btn logout-btn">Cerrar sesión</button>
       </nav>
     </header>
@@ -34,12 +56,12 @@
               <a href="#" id="appointments-link" class="nav-link">Citas</a>
             </li>
             <li><a href="#" id="chatbot-link" class="nav-link">ChatBot</a></li>
+            <li><a href="#" id="medical-dashboard-link" class="nav-link">Dashboard Médico</a></li>
           </ul>
         </nav>
       </aside>
 
       <div class="content-area">
-        <!-- Sección Dashboard -->
         <section id="dashboard-section" class="section active">
           <h1>Bienvenido a MedQuick</h1>
           <div class="dashboard-cards">
@@ -76,16 +98,13 @@
           </div>
         </section>
 
-        <!-- Sección Doctores -->
         <section id="doctors-section" class="section">
           <h1>Doctores disponibles</h1>
           <div id="doctors-list" class="doctors-grid">
-            <!-- Se completará con JavaScript -->
             <div class="loading">Cargando doctores...</div>
           </div>
         </section>
 
-        <!-- Sección Citas -->
         <section id="appointments-section" class="section">
           <h1>Mis Citas</h1>
           <div class="appointments-actions">
@@ -94,14 +113,11 @@
             </button>
           </div>
           <div class="appointments-calendar">
-            <!-- Calendario simple se completará con JavaScript -->
-          </div>
+            </div>
           <div id="appointments-list" class="appointments-list">
-            <!-- Se completará con JavaScript -->
             <div class="loading">Cargando citas...</div>
           </div>
 
-          <!-- FORMULARIO NUEVA CITA OCULTO -->
           <div id="new-appointment-modal" class="modal hidden">
             <form id="formCrearCita" class="form-cita">
               <h2>Crear Nueva Cita</h2>
@@ -143,7 +159,6 @@
           </div>
         </section>
 
-        <!-- Sección Chatbot -->
         <section id="chatbot-section" class="section">
           <h1>Asistente Médico Virtual</h1>
           <div class="chatbot-container">
@@ -175,6 +190,47 @@
             </div>
           </div>
         </section>
+
+        <section id="medical-dashboard-section" class="section">
+          <div class="max-w-5xl w-full mx-auto"> <h1 class="text-4xl font-extrabold text-gray-900 text-center mb-2">Dashboard Médico</h1>
+            <p class="text-lg text-gray-600 text-center mb-8">Resumen de citas médicas</p>
+
+            <div class="dashboard grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+              <div class="card bg-white rounded-xl shadow-lg p-6 text-center transition-transform transform hover:scale-105 border-b-4 border-sky-500">
+                <h2 id="totalAppointments" class="text-5xl font-bold text-gray-900 mb-2">0</h2>
+                <span class="text-gray-500 text-lg">Citas Totales</span>
+              </div>
+              <div class="card bg-white rounded-xl shadow-lg p-6 text-center transition-transform transform hover:scale-105 border-b-4 border-sky-500">
+                <h2 id="totalPatients" class="text-5xl font-bold text-gray-900 mb-2">0</h2>
+                <span class="text-gray-500 text-lg">Pacientes Totales</span>
+              </div>
+              <div class="card bg-white rounded-xl shadow-lg p-6 text-center transition-transform transform hover:scale-105 border-b-4 border-sky-500">
+                <h2 id="inProgress" class="text-5xl font-bold text-gray-900 mb-2">0</h2>
+                <span class="text-gray-500 text-lg">En Proceso</span>
+              </div>
+              <div class="card bg-white rounded-xl shadow-lg p-6 text-center transition-transform transform hover:scale-105 border-b-4 border-sky-500">
+                <h2 id="completed" class="text-5xl font-bold text-gray-900 mb-2">0</h2>
+                <span class="text-gray-500 text-lg">Completadas</span>
+              </div>
+            </div>
+
+            <div class="charts grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="bg-white rounded-xl shadow-lg p-6">
+                <canvas id="byStatus"></canvas>
+              </div>
+              <div class="bg-white rounded-xl shadow-lg p-6">
+                <canvas id="byMonth"></canvas>
+              </div>
+              <div class="bg-white rounded-xl shadow-lg p-6">
+                <canvas id="byDoctor"></canvas>
+              </div>
+              <div class="bg-white rounded-xl shadow-lg p-6">
+                <canvas id="byHour"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
     </main>
 
@@ -182,6 +238,7 @@
       <p>&copy; 2025 MedQuick - Todos los derechos reservados</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       // Chatbot functionality
       let messages = [
@@ -337,42 +394,50 @@
 
       // Dashboard navigation (existing functionality)
       document.addEventListener('DOMContentLoaded', function() {
-        // Navigation functionality
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('.section');
+
+        // Función para mostrar una sección específica
+        function showSection(sectionId) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          sections.forEach(s => s.classList.remove('active'));
+
+          const targetLink = document.getElementById(sectionId.replace('-section', '-link'));
+          if (targetLink) {
+            targetLink.classList.add('active');
+          }
+
+          const targetSection = document.getElementById(sectionId);
+          if (targetSection) {
+            targetSection.classList.add('active');
+          }
+        }
 
         navLinks.forEach(link => {
           link.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            // Remove active class from all links and sections
-            navLinks.forEach(l => l.classList.remove('active'));
-            sections.forEach(s => s.classList.remove('active'));
-            
-            // Add active class to clicked link
-            this.classList.add('active');
-            
-            // Show corresponding section
             const targetId = this.id.replace('-link', '-section');
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-              targetSection.classList.add('active');
+            showSection(targetId);
+
+            // Si la sección activada es el dashboard médico, inicializarlo
+            if (targetId === 'medical-dashboard-section') {
+              // Now fetchData is in dashmed.js and will be called from there
+              fetchData(); 
             }
           });
         });
 
         // Dashboard card buttons
         document.getElementById('view-doctors-btn')?.addEventListener('click', function() {
-          document.getElementById('doctors-link').click();
+          showSection('doctors-section');
         });
 
         document.getElementById('view-appointments-btn')?.addEventListener('click', function() {
-          document.getElementById('appointments-link').click();
+          showSection('appointments-section');
         });
 
-        // Fix: Make "Iniciar Chat" button work
         document.getElementById('view-chatbot-btn')?.addEventListener('click', function() {
-          document.getElementById('chatbot-link').click();
+          showSection('chatbot-section');
         });
 
         // Focus chat input when chatbot section is opened
@@ -381,10 +446,13 @@
             document.getElementById('chatInput').focus();
           }, 100);
         });
+
+        // Asegurarse de que la sección de inicio esté activa por defecto al cargar
+        showSection('dashboard-section');
       });
     </script>
     
-    <script src="js/dashboard.js"></script>
+    <script src="js/dashmed.js"></script> <script src="js/dashboard.js"></script>
     <script src="js/doctors.js"></script>
     <script src="js/appointments.js"></script>
     <script src="js/surveys.js"></script>
