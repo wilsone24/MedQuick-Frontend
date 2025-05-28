@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Guardar token y datos del usuario de acuerdo con la respuesta de FastAPI
         localStorage.setItem('accessToken', data.access_token);
+        localStorage.setItem('id_user', data.id_user);
         
         // Extraer información del payload del token (si lo necesitas)
         // Aquí estamos guardando la información básica que sabemos

@@ -345,3 +345,60 @@
     width: 100%;
   }
 }
+/* Modal base */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Oculto */
+.hidden {
+  display: none !important;
+}
+
+/* Formulario dentro del modal */
+.form-cita {
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-cita label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.form-cita select,
+.form-cita input[type="date"],
+.form-cita textarea,
+.form-cita button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-buttons .btn {
+  width: 48%;
+  cursor: pointer;
+}

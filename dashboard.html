@@ -1,132 +1,191 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MedQuick - Panel de Usuario</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/dashboard.css">
-</head>
-<body class="dashboard-page">
-  <header>
-    <nav class="navbar">
-      <div class="logo">
-        <a href="dashboard.html">MedQuick</a>
-      </div>
-      <div id="user-info" class="user-info">
-        <!-- Se completará con JavaScript -->
-      </div>
-      <button id="logout-btn" class="btn logout-btn">Cerrar sesión</button>
-    </nav>
-  </header>
-
-  <main class="dashboard-container">
-    <aside class="sidebar">
-      <nav class="sidebar-nav">
-        <ul>
-          <li><a href="#" id="dashboard-link" class="nav-link active">Inicio</a></li>
-          <li><a href="#" id="doctors-link" class="nav-link">Doctores</a></li>
-          <li><a href="#" id="appointments-link" class="nav-link">Citas</a></li>
-          <li><a href="#" id="surveys-link" class="nav-link">Encuestas</a></li>
-          <li><a href="#" id="chatbot-link" class="nav-link">ChatBot</a></li>
-        </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MedQuick - Panel de Usuario</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+  <body class="dashboard-page">
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="dashboard.html">MedQuick</a>
+        </div>
+        <div id="user-info" class="user-info">
+          <!-- Se completará con JavaScript -->
+        </div>
+        <button id="logout-btn" class="btn logout-btn">Cerrar sesión</button>
       </nav>
-    </aside>
+    </header>
 
-    <div class="content-area">
-      <!-- Sección Dashboard -->
-      <section id="dashboard-section" class="section active">
-        <h1>Bienvenido a MedQuick</h1>
-        <div class="dashboard-cards">
-          <div class="card">
-            <div class="card-icon">👨‍⚕️</div>
-            <div class="card-title">Doctores</div>
-            <div class="card-content">
-              <p>Encuentra y consulta con los mejores especialistas.</p>
-              <button class="btn secondary-btn" id="view-doctors-btn">Ver doctores</button>
+    <main class="dashboard-container">
+      <aside class="sidebar">
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="#" id="dashboard-link" class="nav-link active">Inicio</a>
+            </li>
+            <li><a href="#" id="doctors-link" class="nav-link">Doctores</a></li>
+            <li>
+              <a href="#" id="appointments-link" class="nav-link">Citas</a>
+            </li>
+            <li>
+              <a href="#" id="surveys-link" class="nav-link">Encuestas</a>
+            </li>
+            <li><a href="#" id="chatbot-link" class="nav-link">ChatBot</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <div class="content-area">
+        <!-- Sección Dashboard -->
+        <section id="dashboard-section" class="section active">
+          <h1>Bienvenido a MedQuick</h1>
+          <div class="dashboard-cards">
+            <div class="card">
+              <div class="card-icon">👨‍⚕️</div>
+              <div class="card-title">Doctores</div>
+              <div class="card-content">
+                <p>Encuentra y consulta con los mejores especialistas.</p>
+                <button class="btn secondary-btn" id="view-doctors-btn">
+                  Ver doctores
+                </button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-icon">📅</div>
+              <div class="card-title">Mis Citas</div>
+              <div class="card-content">
+                <p>Gestiona tus citas médicas programadas.</p>
+                <button class="btn secondary-btn" id="view-appointments-btn">
+                  Ver citas
+                </button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-icon">📝</div>
+              <div class="card-title">Encuestas</div>
+              <div class="card-content">
+                <p>Brinda tu opinión sobre la atención recibida.</p>
+                <button class="btn secondary-btn" id="view-surveys-btn">
+                  Ver encuestas
+                </button>
+              </div>
             </div>
           </div>
-          <div class="card">
-            <div class="card-icon">📅</div>
-            <div class="card-title">Mis Citas</div>
-            <div class="card-content">
-              <p>Gestiona tus citas médicas programadas.</p>
-              <button class="btn secondary-btn" id="view-appointments-btn">Ver citas</button>
+        </section>
+
+        <!-- Sección Doctores -->
+        <!-- Reemplaza la sección Doctores con esto: -->
+
+        <!-- Sección Doctores -->
+        <section id="doctors-section" class="section">
+          <h1>Doctores disponibles</h1>
+          <div id="doctors-list" class="doctors-grid">
+            <!-- Se completará con JavaScript -->
+            <div class="loading">Cargando doctores...</div>
+          </div>
+        </section>
+
+        <!-- Sección Citas -->
+        <section id="appointments-section" class="section">
+          <h1>Mis Citas</h1>
+          <div class="appointments-actions">
+            <button id="new-appointment-btn" class="btn primary-btn">
+              Nueva Cita
+            </button>
+            <div class="filters">
+              <select id="appointment-status">
+                <option value="">Todos los estados</option>
+                <option value="pending">Pendientes</option>
+                <option value="completed">Completadas</option>
+                <option value="canceled">Canceladas</option>
+              </select>
             </div>
           </div>
-          <div class="card">
-            <div class="card-icon">📝</div>
-            <div class="card-title">Encuestas</div>
-            <div class="card-content">
-              <p>Brinda tu opinión sobre la atención recibida.</p>
-              <button class="btn secondary-btn" id="view-surveys-btn">Ver encuestas</button>
-            </div>
+          <div class="appointments-calendar">
+            <!-- Calendario simple se completará con JavaScript -->
           </div>
-        </div>
-      </section>
-
-      <!-- Sección Doctores -->
-      <!-- Reemplaza la sección Doctores con esto: -->
-
-      <!-- Sección Doctores -->
-      <section id="doctors-section" class="section">
-        <h1>Doctores disponibles</h1>
-        <div id="doctors-list" class="doctors-grid">
-          <!-- Se completará con JavaScript -->
-          <div class="loading">Cargando doctores...</div>
-        </div>
-      </section>
-
-      <!-- Sección Citas -->
-      <section id="appointments-section" class="section">
-        <h1>Mis Citas</h1>
-        <div class="appointments-actions">
-          <button id="new-appointment-btn" class="btn primary-btn">Nueva Cita</button>
-          <div class="filters">
-            <select id="appointment-status">
-              <option value="">Todos los estados</option>
-              <option value="pending">Pendientes</option>
-              <option value="completed">Completadas</option>
-              <option value="canceled">Canceladas</option>
-            </select>
+          <div id="appointments-list" class="appointments-list">
+            <!-- Se completará con JavaScript -->
+            <div class="loading">Cargando citas...</div>
           </div>
-        </div>
-        <div class="appointments-calendar">
-          <!-- Calendario simple se completará con JavaScript -->
-        </div>
-        <div id="appointments-list" class="appointments-list">
-          <!-- Se completará con JavaScript -->
-          <div class="loading">Cargando citas...</div>
-        </div>
-      </section>
 
-      <!-- Sección Encuestas -->
-      <section id="surveys-section" class="section">
-        <h1>Encuestas de Satisfacción</h1>
-        <div class="surveys-tabs">
-          <button class="tab-btn active" id="pending-surveys-tab">Pendientes</button>
-          <button class="tab-btn" id="completed-surveys-tab">Completadas</button>
-        </div>
-        <div id="surveys-list" class="surveys-list">
-          <!-- Se completará con JavaScript -->
-          <div class="loading">Cargando encuestas...</div>
-        </div>
-      </section>
+          <!-- FORMULARIO NUEVA CITA OCULTO -->
+          <div id="new-appointment-modal" class="modal hidden">
+            <form id="formCrearCita" class="form-cita">
+              <h2>Crear Nueva Cita</h2>
 
-      <!-- Sección Perfil -->
-      <section id="chatbot-section" class="section">
-        <h1>ChatBot</h1>  
-      </section>
-    </div>
-  </main>
+              <label for="doctor">Doctor:</label>
+              <select id="doctor" name="doctor" required>
+                <option value="">Cargando doctores...</option>
+              </select>
 
-  <footer>
-    <p>&copy; 2025 MedQuick - Todos los derechos reservados</p>
-  </footer>
+              <label for="fecha">Fecha:</label>
+              <input type="date" id="fecha" name="fecha" required />
 
-  <script src="js/dashboard.js"></script>
-  <script src="js/doctors.js"></script>
-  <script src="js/appointments.js"></script>
-  <script src="js/surveys.js"></script>
-</body>
+              <label for="hora">Hora:</label>
+              <select id="hora" name="hora" required disabled>
+                <option value="">Seleccione una hora</option>
+              </select>
+
+              <label for="descripcion">Descripción:</label>
+              <textarea
+                id="descripcion"
+                name="descripcion"
+                rows="3"
+                placeholder="Opcional"
+              ></textarea>
+
+              <div class="modal-buttons">
+                <button type="submit" class="btn primary-btn">
+                  Crear Cita
+                </button>
+                <button
+                  type="button"
+                  id="cancel-appointment-btn"
+                  class="btn secondary-btn"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Sección Encuestas -->
+        <section id="surveys-section" class="section">
+          <h1>Encuestas de Satisfacción</h1>
+          <div class="surveys-tabs">
+            <button class="tab-btn active" id="pending-surveys-tab">
+              Pendientes
+            </button>
+            <button class="tab-btn" id="completed-surveys-tab">
+              Completadas
+            </button>
+          </div>
+          <div id="surveys-list" class="surveys-list">
+            <!-- Se completará con JavaScript -->
+            <div class="loading">Cargando encuestas...</div>
+          </div>
+        </section>
+
+        <!-- Sección Perfil -->
+        <section id="chatbot-section" class="section">
+          <h1>ChatBot</h1>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 MedQuick - Todos los derechos reservados</p>
+    </footer>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/doctors.js"></script>
+    <script src="js/appointments.js"></script>
+    <script src="js/surveys.js"></script>
+  </body>
 </html>
