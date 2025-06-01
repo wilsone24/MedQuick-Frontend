@@ -1,0 +1,220 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Calendar, MessageSquare, Shield, Clock, Users, Star } from "lucide-react"
+import Link from "next/link"
+
+export function LandingPage() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token")
+    setIsLoggedIn(!!token)
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("token_type")
+    localStorage.removeItem("id_user")
+    setIsLoggedIn(false)
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+      {/* Header */}
+      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">M</span>
+            </div>
+            <h1 className="text-2xl font-bold text-blue-600">MedQuick</h1>
+          </div>
+          <nav className="flex items-center space-x-4">
+            {isLoggedIn ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-sm text-gray-600">Bienvenido</span>
+                <Button onClick={handleLogout} variant="outline">
+                  Cerrar Sesión
+                </Button>
+              </div>
+            ) : (
+              <Link href="/login">
+                <Button>Iniciar Sesión</Button>
+              </Link>
+            )}
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto text-center">
+          <h2 className="text-5xl font-bold text-gray-900 mb-6">Tu salud, nuestra prioridad</h2>
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Agenda citas médicas de forma rápida y sencilla. Recibe recomendaciones personalizadas de medicina
+            preventiva con nuestro chatbot inteligente.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {isLoggedIn ? (
+              <Link href="/dashboard">
+                <Button size="lg" className="text-lg px-8 py-4">
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Ir al Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/login">
+                <Button size="lg" className="text-lg px-8 py-4">
+                  Comenzar Ahora
+                </Button>
+              </Link>
+            )}
+            <Button variant="outline" size="lg" className="text-lg px-8 py-4">
+              <MessageSquare className="mr-2 h-5 w-5" />
+              Hablar con Chatbot
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 px-4 bg-white">
+        <div className="container mx-auto">
+          <h3 className="text-3xl font-bold text-center text-gray-900 mb-12">¿Por qué elegir MedQuick?</h3>
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="text-center">
+              <CardHeader>
+                <Calendar className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                <CardTitle>Citas Rápidas</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Agenda tu cita médica en menos de 2 minutos. Disponibilidad en tiempo real.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardHeader>
+                <MessageSquare className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                <CardTitle>Chatbot Inteligente</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Recibe recomendaciones personalizadas de medicina preventiva las 24 horas.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardHeader>
+                <Shield className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                <CardTitle>Medicina Preventiva</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>
+                  Mantente saludable con chequeos regulares y consejos médicos preventivos.
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 px-4 bg-blue-50">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="flex items-center justify-center mb-4">
+                <Users className="h-8 w-8 text-blue-600 mr-2" />
+                <span className="text-4xl font-bold text-gray-900">10,000+</span>
+              </div>
+              <p className="text-gray-600">Pacientes Satisfechos</p>
+            </div>
+            <div>
+              <div className="flex items-center justify-center mb-4">
+                <Clock className="h-8 w-8 text-blue-600 mr-2" />
+                <span className="text-4xl font-bold text-gray-900">24/7</span>
+              </div>
+              <p className="text-gray-600">Disponibilidad</p>
+            </div>
+            <div>
+              <div className="flex items-center justify-center mb-4">
+                <Star className="h-8 w-8 text-blue-600 mr-2" />
+                <span className="text-4xl font-bold text-gray-900">4.9</span>
+              </div>
+              <p className="text-gray-600">Calificación Promedio</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 bg-blue-600 text-white">
+        <div className="container mx-auto text-center">
+          <h3 className="text-3xl font-bold mb-6">¿Listo para cuidar tu salud?</h3>
+          <p className="text-xl mb-8 opacity-90">
+            Únete a miles de usuarios que ya confían en MedQuick para su bienestar.
+          </p>
+          {!isLoggedIn && (
+            <Link href="/register">
+              <Button size="lg" variant="secondary" className="text-lg px-8 py-4">
+                Crear Cuenta Gratis
+              </Button>
+            </Link>
+          )}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12 px-4">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">M</span>
+                </div>
+                <h4 className="text-xl font-bold">MedQuick</h4>
+              </div>
+              <p className="text-gray-400">Tu plataforma de confianza para el cuidado de la salud.</p>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-4">Servicios</h5>
+              <ul className="space-y-2 text-gray-400">
+                <li>Citas Médicas</li>
+                <li>Medicina Preventiva</li>
+                <li>Consulta Virtual</li>
+                <li>Chatbot Médico</li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-4">Soporte</h5>
+              <ul className="space-y-2 text-gray-400">
+                <li>Centro de Ayuda</li>
+                <li>Contacto</li>
+                <li>FAQ</li>
+                <li>Términos de Uso</li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-4">Contacto</h5>
+              <ul className="space-y-2 text-gray-400">
+                <li>info@medquick.com</li>
+                <li>+1 (555) 123-4567</li>
+                <li>Lun - Vie: 8AM - 6PM</li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 MedQuick. Todos los derechos reservados.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}
