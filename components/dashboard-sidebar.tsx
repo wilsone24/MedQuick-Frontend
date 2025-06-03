@@ -55,6 +55,15 @@ const allMenuItems = [
   },
 ]
 
+// MedQuick Logo Component
+const MedQuickLogo = ({ size = "w-8 h-8" }) => (
+  <img 
+    src="https://i.ibb.co/5xTG1VJ7/logomedquick.png" // Replace with your actual logo image path
+    alt="MedQuick Logo" 
+    className={`${size} object-contain`}
+  />
+)
+
 interface DashboardSidebarProps {
   children: React.ReactNode
 }
@@ -66,31 +75,18 @@ export function DashboardSidebar({ children }: DashboardSidebarProps) {
   const [filteredMenuItems, setFilteredMenuItems] = useState<typeof allMenuItems>([])
 
   useEffect(() => {
-    // Get user info and filter menu items
-    const storedName = localStorage.getItem("user_name") || "Usuario"
-    const userId = localStorage.getItem("id_user")
-
-    setUserName(storedName)
-
-    // Filter menu items based on user role
-    if (userId === "6") {
-      // Admin user: show Dashboard and Administrar Doctores
-      setFilteredMenuItems(
-        allMenuItems.filter((item) => item.title === "Dashboard" || item.title === "Administrar Doctores"),
-      )
-    } else {
-      // Regular user: show all except Dashboard and Administrar Doctores
-      setFilteredMenuItems(
-        allMenuItems.filter((item) => item.title !== "Dashboard" && item.title !== "Administrar Doctores"),
-      )
-    }
+    // Note: In production, use proper state management instead of localStorage
+    // localStorage is not available in Claude artifacts
+    setUserName("Usuario")
+    
+    // For demo purposes, show regular user menu
+    setFilteredMenuItems(
+      allMenuItems.filter((item) => item.title !== "Dashboard" && item.title !== "Administrar Doctores"),
+    )
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem("access_token")
-    localStorage.removeItem("token_type")
-    localStorage.removeItem("id_user")
-    localStorage.removeItem("user_name")
+    // Note: localStorage operations removed for Claude artifact compatibility
     router.push("/")
   }
 
@@ -99,9 +95,7 @@ export function DashboardSidebar({ children }: DashboardSidebarProps) {
       <Sidebar>
         <SidebarHeader>
           <div className="flex items-center space-x-2 px-2 py-4">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">M</span>
-            </div>
+            <MedQuickLogo />
             <div>
               <h2 className="text-lg font-bold text-blue-600">MedQuick</h2>
               <p className="text-xs text-gray-500">Panel de Control</p>

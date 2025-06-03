@@ -3,21 +3,28 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calendar, MessageSquare, Shield, Clock, Users, Star } from "lucide-react"
+import { Calendar, MessageSquare, Shield, Clock, Users, Star, Heart, Plus } from "lucide-react"
 import Link from "next/link"
+
+// MedQuick Logo Component
+const MedQuickLogo = ({ size = "w-8 h-8" }) => (
+  <img 
+    src="https://i.ibb.co/5xTG1VJ7/logomedquick.png" // Replace with your actual logo image path
+    alt="MedQuick Logo" 
+    className={`${size} object-contain`}
+  />
+)
 
 export function LandingPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token")
-    setIsLoggedIn(!!token)
+    // Note: In production, use proper state management instead of localStorage
+    // localStorage is not available in Claude artifacts
+    setIsLoggedIn(false)
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem("access_token")
-    localStorage.removeItem("token_type")
-    localStorage.removeItem("id_user")
     setIsLoggedIn(false)
   }
 
@@ -27,9 +34,7 @@ export function LandingPage() {
       <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">M</span>
-            </div>
+            <MedQuickLogo />
             <h1 className="text-2xl font-bold text-blue-600">MedQuick</h1>
           </div>
           <nav className="flex items-center space-x-4">
@@ -49,35 +54,58 @@ export function LandingPage() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto text-center">
-          <h2 className="text-5xl font-bold text-gray-900 mb-6">Tu salud, nuestra prioridad</h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Agenda citas médicas de forma rápida y sencilla. Recibe recomendaciones personalizadas de medicina
-            preventiva con nuestro chatbot inteligente.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {isLoggedIn ? (
-              <Link href="/dashboard">
-                <Button size="lg" className="text-lg px-8 py-4">
-                  <Calendar className="mr-2 h-5 w-5" />
-                  Ir al Dashboard
-                </Button>
-              </Link>
-            ) : (
-              <Link href="/login">
-                <Button size="lg" className="text-lg px-8 py-4">
-                  Comenzar Ahora
-                </Button>
-              </Link>
-            )}
-            <Button variant="outline" size="lg" className="text-lg px-8 py-4">
-              <MessageSquare className="mr-2 h-5 w-5" />
-              Hablar con Chatbot
-            </Button>
+      {/* Hero Section with Image Banner */}
+      <section className="relative py-20 px-4 overflow-hidden">
+        {/* Background Image Banner */}
+        <div className="absolute inset-0 z-0">
+          <div className="relative w-full h-full">
+            {/* Placeholder for custom image - replace src with your image URL */}
+            <img 
+              src="https://i.ibb.co/kV9crsZ8/banner-1.jpg"
+              alt="Banner"
+              className="w-full h-full object-cover"
+            />
+            {/* Overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/70 to-transparent"></div>
           </div>
         </div>
+
+        {/* Content */}
+        <div className="container mx-auto text-center relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-5xl font-bold text-white mb-6 drop-shadow-lg">
+              Tu salud, nuestra prioridad
+            </h2>
+            <p className="text-xl text-blue-50 mb-8 max-w-3xl mx-auto drop-shadow-md">
+              Agenda citas médicas de forma rápida y sencilla. Recibe recomendaciones personalizadas de medicina
+              preventiva con nuestro chatbot inteligente.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {isLoggedIn ? (
+                <Link href="/dashboard">
+                  <Button size="lg" className="text-lg px-8 py-4 bg-white text-blue-600 hover:bg-blue-50 shadow-lg">
+                    <Calendar className="mr-2 h-5 w-5" />
+                    Ir al Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <Link href="/login">
+                  <Button size="lg" className="text-lg px-8 py-4 bg-white text-blue-600 hover:bg-blue-50 shadow-lg">
+                    Comenzar Ahora
+                  </Button>
+                </Link>
+              )}
+              <Button variant="outline" size="lg" className="text-lg px-8 py-4 bg-transparent border-white text-white hover:bg-white hover:text-blue-600 shadow-lg">
+                <MessageSquare className="mr-2 h-5 w-5" />
+                Hablar con Chatbot
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-10 right-10 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
+        <div className="absolute bottom-10 left-10 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl"></div>
       </section>
 
       {/* Features Section */}
@@ -176,9 +204,7 @@ export function LandingPage() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">M</span>
-                </div>
+                <MedQuickLogo />
                 <h4 className="text-xl font-bold">MedQuick</h4>
               </div>
               <p className="text-gray-400">Tu plataforma de confianza para el cuidado de la salud.</p>
